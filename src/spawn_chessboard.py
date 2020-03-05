@@ -43,8 +43,6 @@ if __name__ == '__main__':
 
     pieces_xml = dict()
     list_pieces = 'rnbqkpRNBQKP'
-
-    counter = 0
     
     for each in list_pieces:
         with open(model_path + each+".sdf", "r") as f:
@@ -54,19 +52,22 @@ if __name__ == '__main__':
     # board_setup = ['rnbqkbnr', 'pppppppp', '', '', '', '', 'PPPPPPPP', 'RNBQKBNR']
     board_setup = ['r******r', '', '**k*****', '', '', '******K*', '', 'R******R']
 
-    for row in board_setup:
-        if row != '':
-            for piece in row:
-                if piece != '*':
-                    piece_pose=Pose(position=Point(0.35 + counter,0.7,0.78))
+    counter = 0
 
-                    try:
-                        spawn_sdf = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
-                        spawn_sdf(str(piece + str(counter)), pieces_xml[piece], "/", piece_pose, "world")
-                    except rospy.ServiceException, e:
-                        rospy.logerr("Spawn SDF service call failed: {0}".format(e))
+    for row, each in enumerate(board_setup):
+        for col, piece in enumerate(each):
+            if piece in list_pieces:
+                piece_name = "%s%d" % (piece, col)
+                piece_pose = Pose(position=Point(0.35 + counter,0.7,0.78))
 
-                    counter += 0.0625
+                try:
+                    spawn_sdf = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
+                    spawn_sdf(piece_name, pieces_xml[piece], "/", piece_pose, "world")
+                except rospy.ServiceException, e:
+                    rospy.logerr("Spawn SDF service call failed: {0}".format(e))
+
+                counter += 0.0625
+
 
     piece_positionmap = dict()
     piece_names = []
