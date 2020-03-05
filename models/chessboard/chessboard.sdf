@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version="1.6">
+    <model name="chessboard">
+        <static>true</static>
+        <pose>0 0 0. 0 0 0</pose>
+        <link name="board">
+            <collision name="collision">
+                <geometry>
+                    <box>
+                        <size>0.5 0.5 0.02</size>
+                    </box>
+                </geometry>
+                <surface>
+                    <friction>
+                        <ode>
+                            <mu>0.1</mu>
+                            <mu2>0.1</mu2>
+                        </ode>
+                    </friction>
+                    <contact>
+                        <ode>
+                            <max_vel>0.1</max_vel>
+                            <min_depth>0.001</min_depth>
+                        </ode>
+                    </contact>
+                </surface>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <box>
+                        <size>0.5 0.5 0.02</size>
+                    </box>
+                </geometry>
+            </visual>
+        </link>
+    </model>
+</sdf>
