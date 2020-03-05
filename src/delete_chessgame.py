@@ -23,4 +23,8 @@ if __name__ == '__main__':
 
     delete_model("cafe_table")
     delete_model("chessboard")
+    
+    list_pieces = 'rnbqkpRNBQKP'
 
+    for piece in list_pieces:
+        delete_model(piece)
