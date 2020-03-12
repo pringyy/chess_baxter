@@ -4,8 +4,7 @@ import tf
 from gazebo_msgs.msg import LinkStates
 
 # This is hard-coded to block for this exercise, yet you can make the script general by adding cmd line arguments
-#input_linkname = "block"
-input_linkname = "r0"
+input_linkname = "k2"
 
 # Global variable where the object's pose is stored
 pose = None

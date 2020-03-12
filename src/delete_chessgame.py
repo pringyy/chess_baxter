@@ -14,6 +14,7 @@ if __name__ == '__main__':
 
     list_pieces = rospy.get_param('list_pieces')
     board_setup = rospy.get_param('board_setup')
+    
     for row, each in enumerate(board_setup):
         for col, piece in enumerate(each):
             if piece in list_pieces:

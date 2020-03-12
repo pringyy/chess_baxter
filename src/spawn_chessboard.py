@@ -48,11 +48,10 @@ if __name__ == '__main__':
         with open(model_path + each+".sdf", "r") as f:
             pieces_xml[each] = f.read().replace('\n', '')
     
-
     # board_setup = ['rnbqkbnr', 'pppppppp', '', '', '', '', 'PPPPPPPP', 'RNBQKBNR']
     board_setup = ['r******r', '', '**k*****', '', '', '******K*', '', 'R******R']
 
-    counter = 0
+    '''counter = 0
 
     for row, each in enumerate(board_setup):
         for col, piece in enumerate(each):
@@ -66,7 +65,7 @@ if __name__ == '__main__':
                 except rospy.ServiceException, e:
                     rospy.logerr("Spawn SDF service call failed: {0}".format(e))
 
-                counter += 0.0625
+                counter += 0.0625'''
 
 
     piece_positionmap = dict()
@@ -79,8 +78,15 @@ if __name__ == '__main__':
             pose.position.y = board_pose.position.y - 0.55 + frame_dist + origin_piece + col * (2 * origin_piece)
             pose.position.z += 0.018
             piece_positionmap[str(row)+str(col)] = [pose.position.x, pose.position.y, pose.position.z-0.93] #0.93 to compensate Gazebo RViz origin difference
+
             if piece in list_pieces:
                 piece_names.append("%s%d" % (piece,col))
+
+                try:
+                    spawn_sdf = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
+                    spawn_sdf("%s%d" % (piece, col), pieces_xml[piece], "/", pose, "world")
+                except rospy.ServiceException, e:
+                    rospy.logerr("Spawn SDF service call failed: {0}".format(e))
 
     rospy.set_param('board_setup', board_setup) # Board setup
     rospy.set_param('list_pieces', list_pieces) # List of unique pieces
