@@ -137,8 +137,6 @@ def main():
     starting_pose = Pose(position=Point(x=0.7, y=0.135, z=0.35), orientation=overhead_orientation)
        
     pnp = PickAndPlaceMoveIt(limb, hover_distance)
-    
-    #block_poses = list()
 
     pnp.move_to_start(starting_pose)
 
@@ -147,7 +145,8 @@ def main():
     pick_list = ['00', '70', '20']
     place_list = ['04', '50', '21']
 
-    pick_block_poses, place_block_poses = list()
+    pick_block_poses = list()
+    place_block_poses = list()
 
     for pick in pick_list:
         p = positions[pick]
