@@ -58,29 +58,13 @@ if __name__ == '__main__':
         with open(model_path + each+".sdf", "r") as f:
             pieces_xml[each] = f.read().replace('\n', '')
     
-    #board_setup = ['rnbqkbnr', 'pppppppp', '', '', '', '', 'PPPPPPPP', 'RNBQKBNR']
-    board_setup = ['r******r', '', '*******k', '', '', 'K*******', '', 'R******R']
-
-    '''counter = 0
-
-    for row, each in enumerate(board_setup):
-        for col, piece in enumerate(each):
-            if piece in list_pieces:
-                piece_name = "%s%d" % (piece, col)
-                piece_pose = Pose(position=Point(0.35 + counter,0.7,0.78))
-
-                try:
-                    spawn_sdf = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
-                    spawn_sdf(piece_name, pieces_xml[piece], "/", piece_pose, "world")
-                except rospy.ServiceException, e:
-                    rospy.logerr("Spawn SDF service call failed: {0}".format(e))
-
-                counter += 0.0625'''
-
+    # setup of chess pieces
+    board_setup = ['r******r', '', 'k*******', '', '', '*******K', '', 'R******R']
 
     piece_positionmap = dict()
     piece_names = []
-
+    
+    # hard coded position at the side of the chess board
     piece_spawn_loc = deepcopy(board_pose)
     piece_spawn_loc.position.x = 0.6
     piece_spawn_loc.position.y = 0.6
@@ -97,6 +81,7 @@ if __name__ == '__main__':
 
             if piece in pieces_xml:
                 try:
+                    # get chess model and spawn the piece
                     spawn_sdf = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
                     spawn_sdf("%s%d" % (piece, col), pieces_xml[piece], "/", piece_spawn_loc, "world")
                 except rospy.ServiceException, e:
@@ -105,15 +90,10 @@ if __name__ == '__main__':
             if piece in list_pieces:
                 piece_names.append("%s%d" % (piece,col))
 
-                pnp.pick(Pose(position = Point(x=0.6, y=0.6, z=-0.14), orientation = overhead_orientation))
-
-                pnp.place(Pose(position = Point(x=pose.position.x, y=pose.position.y, z = -0.14), orientation = overhead_orientation))
-
-                '''try:
-                    spawn_sdf = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
-                    spawn_sdf("%s%d" % (piece, col), pieces_xml[piece], "/", pose, "world")
-                except rospy.ServiceException, e:
-                    rospy.logerr("Spawn SDF service call failed: {0}".format(e))'''
+                # pick chess piece from hard coded position on table
+                pnp.pick(Pose(position=Point(x=0.6, y=0.6, z=-0.14), orientation=overhead_orientation))
+                # place the chess piece at the defined position
+                pnp.place(Pose(position=Point(x=pose.position.x, y=pose.position.y, z = -0.14), orientation=overhead_orientation))
 
     rospy.set_param('board_setup', board_setup) # Board setup
     rospy.set_param('list_pieces', list_pieces) # List of unique pieces
