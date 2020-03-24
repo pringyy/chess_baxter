@@ -142,12 +142,15 @@ def main():
 
     positions = rospy.get_param('piece_target_position_map')
 
+    # grid references to pick from
     pick_list = ['00', '70', '20']
+    # grid references for chess move
     place_list = ['04', '50', '21']
 
     pick_block_poses = list()
     place_block_poses = list()
 
+    # loop through each grid reference and add this to a list of block poses
     for pick in pick_list:
         p = positions[pick]
         pick_block_poses.append(Pose(position=Point(x=p[0], y=p[1], z=p[2]), orientation=overhead_orientation))
@@ -156,6 +159,7 @@ def main():
         p = positions[place]
         place_block_poses.append(Pose(position=Point(x=p[0], y=p[1], z=p[2]), orientation=overhead_orientation))
 
+    # perform 3 moves
     for i in range(3):
         if rospy.is_shutdown():
             break
