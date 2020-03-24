@@ -3,12 +3,8 @@ import rospy
 import tf
 from gazebo_msgs.msg import LinkStates
 
-# This is hard-coded to block for this exercise, yet you can make the script general by adding cmd line arguments
-#input_linkname = "k2"
-
 # Global variable where the object's pose is stored
 pose = None
-
 
 def get_links_gazebo(link_states_msg):
     # Call back to retrieve the object you are interested in
