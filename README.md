@@ -6,9 +6,6 @@ Baxter is a two-armed robot with an animated face. It is 3 feet tall and weighs 
 ## Playing Chess
 Clone the repository, run `catkin_make` and source your workspace.  
 Run the following in separate terminals:
-```
-roslaunch baxter_gazebo baxter_world.launch
-```
 
 Terminal 1:
 ```
